@@ -16,7 +16,10 @@
     "animate.css": "^4.1.0",
     "compressorjs": "^1.0.6",
     "firebase": "^7.19.1",
+    "normalize.css": "^8.0.1",
     "nuxt": "^2.14.0",
+    "swiper": "^6.1.2",
+    "vue-awesome-swiper": "^4.1.1",
     "vuelidate": "^0.7.5"
   },
   "devDependencies": {

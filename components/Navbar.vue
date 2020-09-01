@@ -1,17 +1,29 @@
 <template>
   <!-- eslint-disable -->
-  <div class="links">
-    <div class="links__main" v-if="!main">
-      <nuxt-link class="links__item" to="/">
-        <h1>OMDESIGN</h1>
-      </nuxt-link>
+  <div class="nav" :style="scroll >= 90 ? 'background: rgba(0, 0, 0, 0.6)' : ''">
+    <div class="nav__main">
+      <nuxt-link to="/" v-if="!main" :style="scroll >= 90 ? 'color: white' : ''">OMDESIGN</nuxt-link>
     </div>
-    <nuxt-link class="links__item" to="/about">Обо мне</nuxt-link>
-    <nuxt-link class="links__item" to="/services">Услуги</nuxt-link>
-    <nuxt-link class="links__item" to="/projects">Портфолио</nuxt-link>
-    <nuxt-link class="links__item" to="/contacts">Контакты</nuxt-link>
+    <div class="links">
+      <nuxt-link class="links__item" :style="scroll >= 90 ? 'color: white' : ''" to="/about">Обо мне</nuxt-link>
+      <nuxt-link
+        class="links__item"
+        :style="scroll >= 90 ? 'color: white' : ''"
+        to="/services"
+      >Услуги</nuxt-link>
+      <nuxt-link
+        class="links__item"
+        :style="scroll >= 90 ? 'color: white' : ''"
+        to="/projects"
+      >Портфолио</nuxt-link>
+      <nuxt-link
+        class="links__item"
+        :style="scroll >= 90 ? 'color: white' : ''"
+        to="/contacts"
+      >Контакты</nuxt-link>
 
-    <div class="links__hr animate__animated animate__fadeIn" :style="width"></div>
+      <div class="links__hr animate__animated animate__fadeIn" :style="width"></div>
+    </div>
   </div>
 </template>
 
@@ -19,6 +31,11 @@
 export default {
   props: {
     main: Boolean
+  },
+  data () {
+    return {
+      scroll: null
+    }
   },
   computed: {
     width () {
@@ -39,25 +56,46 @@ export default {
       }
       return pos
     }
+  },
+  mounted () {
+    window.addEventListener('scroll', this.handlescroll)
+  },
+  methods: {
+    handlescroll () {
+      this.scroll = window.scrollY
+    }
   }
 }
 </script>
 
 <style lang="less">
-.links {
-  top: 2%;
-  position: fixed;
+.nav {
+  transition: all 0.4s;
   z-index: 100000;
-  right: 2%;
+  width: 100%;
+  // background: rgba(0, 0, 0, 0.021);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  height: 5%;
   &__main {
-    position: fixed;
-    left: 2%;
-    font-size: 30px;
-    text-decoration: none;
-    color: #000;
-    font-weight: bold;
-    transition: all 0.4s;
+    margin-left: 2%;
+    a {
+      text-decoration: none;
+      color: #000;
+      transition: all 0.4s;
+      font-weight: bold;
+      font-size: 24px;
+      &:hover {
+        color: #a0c601;
+      }
+    }
   }
+}
+.links {
+  right: 2%;
+
   &__item {
     width: 25%;
     font-size: 14px;
@@ -70,6 +108,7 @@ export default {
     // margin-right: 40px;
     transition: all 0.4s;
     margin-right: 40px;
+    margin-top: 2%;
     &:hover {
       color: #a0c601;
     }

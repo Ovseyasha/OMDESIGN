@@ -24,21 +24,27 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap', rel: 'stylesheet' }
+    ],
+    script: [
+      { src: 'https://kit.fontawesome.com/22d4ab7a71.js' }
     ]
   },
   /*
   ** Global CSS
   */
   css: [
-    '@/assets/style.css',
-    './node_modules/animate.css/animate.min.css'
+    '@/assets/style.less',
+    './node_modules/animate.css/animate.min.css',
+    'normalize.css'
   ],
+  loading: { color: '#a0c601', height: '5px', failedColor: '#F57F6C' },
   /*
   ** Plugins to load before mounting the App
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    '@/plugins/vuelidate'
+    '@/plugins/vuelidate',
+    '@/plugins/swiper'
   ],
   /*
   ** Auto import components
