@@ -1,0 +1,31 @@
+{
+  "name": "OMDESIGN",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "npm run lint:js"
+  },
+  "dependencies": {
+    "@nuxtjs/firebase": "^6.1.1",
+    "@nuxtjs/pwa": "^3.0.0-beta.20",
+    "animate.css": "^4.1.0",
+    "compressorjs": "^1.0.6",
+    "firebase": "^7.19.1",
+    "nuxt": "^2.14.0",
+    "vuelidate": "^0.7.5"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config": "^3.1.0",
+    "@nuxtjs/eslint-module": "^2.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.5.0",
+    "eslint-plugin-nuxt": "^1.0.0",
+    "less": "^3.12.2",
+    "less-loader": "^7.0.0"
+  }
+}
