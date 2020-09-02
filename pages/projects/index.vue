@@ -28,7 +28,9 @@
 <script>
 export default {
   async fetch ({ store }) {
-    await store.dispatch('projects/LoadProjects')
+    if (store.getters['projects/projects'].length === 0) {
+      await store.dispatch('projects/LoadProjects')
+    }
     await store.dispatch('projects/meta')
   },
   computed: {

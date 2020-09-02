@@ -96,7 +96,9 @@
 import { required, email, minLength, numeric } from 'vuelidate/lib/validators'
 export default {
   async fetch ({ store }) {
-    await store.dispatch('contacts/loadContacts')
+    if (store.getters['contacts/contacts'].length === 0) {
+      await store.dispatch('contacts/loadContacts')
+    }
     await store.dispatch('contacts/meta')
   },
   data () {

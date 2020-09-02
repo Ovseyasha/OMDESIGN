@@ -26,7 +26,9 @@
 export default {
   // для vuex
   async fetch ({ store }) {
-    await store.dispatch('about/loadAbout')
+    if (store.getters['about/all'] === null) {
+      await store.dispatch('about/loadAbout')
+    }
     await store.dispatch('about/metaAbout')
   },
   computed: {

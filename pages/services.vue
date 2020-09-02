@@ -22,7 +22,12 @@
 <script>
 export default {
   async fetch ({ store }) {
-    await store.dispatch('services/loadServices')
+    if (store.getters['services/services'].length === 0) {
+      await store.dispatch('services/loadServices')
+    }
+    if (store.getters['projects/projects'].length === 0) {
+      await store.dispatch('projects/LoadProjects')
+    }
     await store.dispatch('services/meta')
   },
   computed: {

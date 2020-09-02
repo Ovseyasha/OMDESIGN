@@ -88,9 +88,7 @@ export default {
   },
   async fetch ({ store, params }) {
     const id = params.id
-    // if (store.getters['projects/projects'].length === 0) {
     await store.dispatch('projects/loadProjectById', id)
-    // }
   },
   data () {
     return {

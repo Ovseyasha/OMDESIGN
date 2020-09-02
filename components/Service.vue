@@ -90,8 +90,7 @@ export default {
       }
     }
   },
-  async mounted () {
-    await this.$store.dispatch('projects/LoadProjects')
+  mounted () {
     if (this.$route.query.name === this.service.id) {
       this.fullPage = true
     }

@@ -1,7 +1,7 @@
 // eslint-disable
 const id = '-MA0mY_wLX4ydQIAna1e'
 export const state = () => ({
-  about: {},
+  about: null,
   metaMain: '',
   metaAbout: ''
 })
