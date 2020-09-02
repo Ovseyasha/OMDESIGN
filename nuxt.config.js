@@ -37,6 +37,7 @@ export default {
     './node_modules/animate.css/animate.min.css',
     'normalize.css'
   ],
+  layoutTransition: 'home',
   loading: { color: '#a0c601', height: '5px', failedColor: '#F57F6C' },
   /*
   ** Plugins to load before mounting the App

@@ -23,10 +23,25 @@
 export default {
   async fetch ({ store }) {
     await store.dispatch('services/loadServices')
+    await store.dispatch('services/meta')
   },
   computed: {
     services () {
       return this.$store.getters['services/services']
+    },
+    desc () {
+      return this.$store.getters['services/meta']
+    }
+  },
+  head () {
+    return {
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.desc
+        }
+      ]
     }
   }
 }

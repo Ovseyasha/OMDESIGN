@@ -29,10 +29,14 @@
 export default {
   async fetch ({ store }) {
     await store.dispatch('projects/LoadProjects')
+    await store.dispatch('projects/meta')
   },
   computed: {
     projects () {
       return this.$store.getters['projects/projects']
+    },
+    desc () {
+      return this.$store.getters['projects/meta']
     }
   },
   methods: {
@@ -53,6 +57,17 @@ export default {
       } else {
         this.$router.push(`/projects/${id}`)
       }
+    }
+  },
+  head () {
+    return {
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.desc
+        }
+      ]
     }
   }
 }

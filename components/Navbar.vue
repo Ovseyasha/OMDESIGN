@@ -1,28 +1,19 @@
 <template>
   <!-- eslint-disable -->
-  <div class="nav" :style="scroll >= 90 ? 'background: rgba(0, 0, 0, 0.6)' : ''">
+  <div
+    class="nav"
+    :style="scroll >= 90 ? 'border-bottom: 2px solid rgb(160, 198, 1); background: rgb(237, 237, 237)' : ''"
+  >
     <div class="nav__main">
-      <nuxt-link to="/" v-if="!main" :style="scroll >= 90 ? 'color: white' : ''">OMDESIGN</nuxt-link>
+      <nuxt-link to="/" v-if="!main">OMDESIGN</nuxt-link>
     </div>
     <div class="links">
-      <nuxt-link class="links__item" :style="scroll >= 90 ? 'color: white' : ''" to="/about">Обо мне</nuxt-link>
-      <nuxt-link
-        class="links__item"
-        :style="scroll >= 90 ? 'color: white' : ''"
-        to="/services"
-      >Услуги</nuxt-link>
-      <nuxt-link
-        class="links__item"
-        :style="scroll >= 90 ? 'color: white' : ''"
-        to="/projects"
-      >Портфолио</nuxt-link>
-      <nuxt-link
-        class="links__item"
-        :style="scroll >= 90 ? 'color: white' : ''"
-        to="/contacts"
-      >Контакты</nuxt-link>
+      <nuxt-link class="links__item" no-prefetch to="/about">Обо мне</nuxt-link>
+      <nuxt-link class="links__item" no-prefetch to="/services">Услуги</nuxt-link>
+      <nuxt-link class="links__item" no-prefetch to="/projects">Портфолио</nuxt-link>
+      <nuxt-link class="links__item" no-prefetch to="/contacts">Контакты</nuxt-link>
 
-      <div class="links__hr animate__animated animate__fadeIn" :style="width"></div>
+      <div class="links__hr" :style="width"></div>
     </div>
   </div>
 </template>
@@ -52,7 +43,7 @@ export default {
       } else if (path === '/contacts') {
         pos.left = '71%'
       } else {
-        pos.left = '-300%'
+        pos.left = '-35%'
       }
       return pos
     }
@@ -68,9 +59,9 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .nav {
-  transition: all 0.4s;
+  transition: background-color 0.2s;
   z-index: 100000;
   width: 100%;
   // background: rgba(0, 0, 0, 0.021);
@@ -95,7 +86,8 @@ export default {
 }
 .links {
   right: 2%;
-
+  overflow: hidden;
+  padding-left: 2%;
   &__item {
     width: 25%;
     font-size: 14px;
@@ -119,7 +111,7 @@ export default {
     height: 1px;
     width: 0;
     // width: 25%;
-    transition: all 0.3s;
+    transition: all 0.8s;
     position: relative;
     // animation: wwww 1s;
   }

@@ -27,6 +27,7 @@ export default {
   // для vuex
   async fetch ({ store }) {
     await store.dispatch('about/loadAbout')
+    await store.dispatch('about/metaAbout')
   },
   computed: {
     img () {
@@ -37,6 +38,20 @@ export default {
     },
     about () {
       return this.$store.getters['about/about']
+    },
+    desc () {
+      return this.$store.getters['about/getMetaAbout']
+    }
+  },
+  head () {
+    return {
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.desc
+        }
+      ]
     }
   }
 }

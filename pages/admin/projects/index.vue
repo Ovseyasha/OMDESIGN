@@ -1,5 +1,5 @@
 <template>
-  <div>admin page</div>
+  <div>admin projects list</div>
 </template>
 
 <script>

@@ -1,7 +1,9 @@
 // eslint-disable
 const id = '-MA0mY_wLX4ydQIAna1e'
 export const state = () => ({
-  about: {}
+  about: {},
+  metaMain: '',
+  metaAbout: ''
 })
 
 export const getters = {
@@ -16,6 +18,12 @@ export const getters = {
   },
   all (state) {
     return state.about
+  },
+  getMetaMain (state) {
+    return state.metaMain
+  },
+  getMetaAbout (state) {
+    return state.metaAbout
   }
 }
 export const mutations = {
@@ -24,6 +32,12 @@ export const mutations = {
   },
   saveAs (state, payload) {
     state.about = payload
+  },
+  metaMain (state, payload) {
+    state.metaMain = payload
+  },
+  metaAbout (state, payload) {
+    state.metaAbout = payload
   }
 }
 export const actions = {
@@ -78,6 +92,24 @@ export const actions = {
       // done logic here
       const about = (await this.$fireDb.ref('about').once('value')).val()
       commit('loadAbout', about[id])
+    } catch (error) {
+      commit('setError', error)
+      throw error
+    }
+  },
+  async metaMain ({ commit }) {
+    try {
+      const meta = (await this.$fireDb.ref('meta').child('main').once('value')).val()
+      commit('metaMain', meta)
+    } catch (error) {
+      commit('setError', error)
+      throw error
+    }
+  },
+  async metaAbout ({ commit }) {
+    try {
+      const meta = (await this.$fireDb.ref('meta').child('about').once('value')).val()
+      commit('metaAbout', meta)
     } catch (error) {
       commit('setError', error)
       throw error

@@ -7,7 +7,7 @@
         enter-active-class="animate__animated animate__slideInRight "
         leave-active-class="animate__animated animate__fadeOut "
       >
-        <Nuxt class="s" />
+        <Nuxt />
       </transition>
     </div>
   </div>
@@ -41,14 +41,7 @@ export default {
   },
   head () {
     return {
-      title: `OMDESIGN | ${this.title.toUpperCase()}`,
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: 'Home page description'
-        }
-      ]
+      title: `OMDESIGN | ${this.title.toUpperCase()}`
     }
   }
 

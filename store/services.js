@@ -1,6 +1,7 @@
 export const state = () => ({
   services: [],
-  service: null
+  service: null,
+  meta: ''
 })
 
 export const getters = {
@@ -16,6 +17,9 @@ export const getters = {
   },
   service (state) {
     return state.service
+  },
+  meta (state) {
+    return state.meta
   }
 }
 export const mutations = {
@@ -27,6 +31,9 @@ export const mutations = {
   },
   loadServiceById (state, payload) {
     state.service = payload
+  },
+  meta (state, payload) {
+    state.meta = payload
   }
 }
 export const actions = {
@@ -120,6 +127,15 @@ export const actions = {
       commit('loadServiceById', service)
     } catch (error) {
       // error logic here
+      commit('setError', error)
+      throw error
+    }
+  },
+  async meta ({ commit }) {
+    try {
+      const meta = (await this.$fireDb.ref('meta').child('services').once('value')).val()
+      commit('meta', meta)
+    } catch (error) {
       commit('setError', error)
       throw error
     }

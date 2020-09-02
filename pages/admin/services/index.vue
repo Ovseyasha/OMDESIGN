@@ -1,5 +1,5 @@
 <template>
-  <div>admin page</div>
+  <div>admin services list</div>
 </template>
 
 <script>

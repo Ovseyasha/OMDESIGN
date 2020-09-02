@@ -10,15 +10,51 @@
       </div>
       <div class="project__content">
         <div class="project__slider animate__animated animate__slideInRight">
-          <swiper class="slider" ref="swiperComponent" :options="swiperOptions">
+          <swiper class="slider" ref="swiperComponent" :options="swiperOptions" :keyboard="true">
             <swiper-slide class="slide" v-for="img in project.imgs" :key="img.img">
               <div class="project__slide-title">{{img.title}}</div>
               <img :src="img.img" />
             </swiper-slide>
-            <div class="swiper-button-prev" slot="button-prev"></div>
-            <div class="swiper-button-next" slot="button-next"></div>
-            <div class="swiper-pagination" slot="pagination"></div>
           </swiper>
+          <div class="pagi">{{ind}}/{{project.imgs.length}}</div>
+          <!-- <button class="swiper-button swiper-button-prev" @click="prev"> -->
+          <svg
+            class="swiper-button swiper-button-prev"
+            @click="prev"
+            width="23"
+            height="58"
+            viewBox="0 0 23 58"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M22 57L0.999998 29.4375L22 0.999998"
+              stroke="#C4C4C4"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <!-- </button> -->
+          <!-- <button class="swiper-button swiper-button-next" @click="next"> -->
+          <svg
+            class="swiper-button swiper-button-next"
+            @click="next"
+            width="23"
+            height="58"
+            viewBox="0 0 23 58"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M22 57L0.999998 29.4375L22 0.999998"
+              stroke="#C4C4C4"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <!-- </button> -->
         </div>
         <div class="project__text animate__animated animate__fadeInRight">
           <h1 class="project__name">{{project.subTitle}}</h1>
@@ -59,14 +95,10 @@ export default {
   data () {
     return {
       swiperOptions: {
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        },
-        pagination: {
-          el: '.swiper-pagination'
-        }
-      }
+        mousewheel: true,
+        keyboard: true
+      },
+      ind: 1
     }
   },
   computed: {
@@ -75,16 +107,32 @@ export default {
     },
     swiper () {
       return this.$refs.swiperComponent.$swiper
+    },
+    desc () {
+      return this.project.aboutCompany.join(' ')
     }
   },
   mounted () {
     // this.swiper.slideTo(3, 1000, false)
   },
+  methods: {
+    prev () {
+      this.swiper.slidePrev()
+      this.ind = this.swiper.activeIndex + 1
+    },
+    next () {
+      this.swiper.slideNext()
+      this.ind = this.swiper.activeIndex + 1
+    }
+  },
   head () {
     return {
       meta: [
-        { href: 'https://unpkg.com/swiper/swiper-bundle.css', rel: 'stylesheet' },
-        { href: 'https://unpkg.com/swiper/swiper-bundle.min.css', rel: 'stylesheet' }
+        {
+          hid: 'description',
+          name: 'description',
+          content: `${this.project.subTitle}. Деятельность компании: ${this.desc} Задача: ${this.project.task.join(' ')}`
+        }
       ]
     }
   }
@@ -92,6 +140,31 @@ export default {
 </script>
 
 <style lang="less" >
+.pagi {
+  margin-top: 10px;
+  text-align: center;
+  font-style: italic;
+  // color: #4d6a00;
+}
+.swiper-button {
+  margin: 1%;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background: none;
+  position: absolute;
+  top: 45%;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+.swiper-button-next {
+  right: 0;
+  transform: scale(-1, 1);
+}
+.img {
+  background: rgba(0, 0, 0, 0.205);
+}
 .swiper-wrapper {
   display: flex;
 }

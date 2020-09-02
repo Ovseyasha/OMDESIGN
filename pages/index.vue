@@ -28,20 +28,39 @@
 <script>
 export default {
   layout: 'main',
+  async fetch ({ store }) {
+    await store.dispatch('about/metaMain')
+  },
   data () {
     return {
       x: 0,
       y: 0
     }
   },
+  computed: {
+    desc () {
+      return this.$store.getters['about/getMetaMain']
+    }
+  },
   methods: {
     mouseMove (e) {
-      if (this.$refs.screen.offsetWidth) {
+      if (this.$refs.screen) {
         if (this.$refs.screen.offsetWidth > 400) {
           this.x = e.pageX / this.$refs.screen.offsetWidth
           this.y = e.pageY / this.$refs.screen.offsetHeight
         }
       }
+    }
+  },
+  head () {
+    return {
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.desc
+        }
+      ]
     }
   }
 }
