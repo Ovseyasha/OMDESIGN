@@ -125,6 +125,7 @@ export default {
   },
   head () {
     return {
+      title: `OMDESIGN | ${this.project.title}`,
       meta: [
         {
           hid: 'description',

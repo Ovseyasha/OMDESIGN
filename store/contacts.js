@@ -44,7 +44,7 @@ export const actions = {
       const loadContacts = contacts.val()
       commit('loadContacts', loadContacts[id])
     } catch (error) {
-      commit('setError', error.message)
+      commit('setError', error.message, { root: true })
       throw error
     }
   },
@@ -64,7 +64,7 @@ export const actions = {
       dispatch('contacts/loadContacts')
     } catch (error) {
       // error logic here
-      commit('setError', error.message)
+      commit('setError', error.message, { root: true })
       throw error
     }
   },
@@ -86,7 +86,7 @@ export const actions = {
       }
       commit('loadMails', mailsArr)
     } catch (error) {
-      commit('setError', error.message)
+      commit('setError', error.message, { root: true })
       throw error
     }
   },
@@ -101,7 +101,7 @@ export const actions = {
       })
     } catch (error) {
       // error logic here
-      commit('setError', error.message)
+      commit('setError', error.message, { root: true })
       throw error
     }
   },
@@ -113,7 +113,7 @@ export const actions = {
       dispatch('contacts/loadMails')
     } catch (error) {
       // error logic here
-      commit('setError', error.message)
+      commit('setError', error.message, { root: true })
       throw error
     }
   },
@@ -126,7 +126,7 @@ export const actions = {
       commit('getMailById', mail.val())
     } catch (error) {
       // error logic here
-      commit('setError', error.message)
+      commit('setError', error.message, { root: true })
       throw error
     }
   },
@@ -136,7 +136,7 @@ export const actions = {
       await this.$fireDb.ref('mails').child(payload).update({ state: 'read' })
       await dispatch.loadMails
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   },
@@ -145,7 +145,7 @@ export const actions = {
       const meta = (await this.$fireDb.ref('meta').child('contacts').once('value')).val()
       commit('meta', meta)
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   }

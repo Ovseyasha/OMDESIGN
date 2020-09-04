@@ -1,10 +1,14 @@
 <template>
-  <div>admin edit id</div>
+  <div class="edit">
+    <Views :mode="'edit'" :category="'service'" />
+  </div>
 </template>
 
 <script>
 export default {
-  layout: 'admin'
+  layout: 'admin',
+  middleware: ['auth']
+
 }
 </script>
 

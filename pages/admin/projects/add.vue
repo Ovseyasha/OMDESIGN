@@ -1,10 +1,12 @@
 <template>
-  <div>admin project add</div>
+  <Views :mode="'add'" :category="'project'" />
 </template>
 
 <script>
 export default {
-  layout: 'admin'
+  layout: 'admin',
+  middleware: ['auth']
+
 }
 </script>
 

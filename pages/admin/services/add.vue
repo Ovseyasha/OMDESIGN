@@ -1,10 +1,14 @@
 <template>
-  <div>admin add services</div>
+  <div class="add">
+    <Views :mode="'add'" :category="'service'" />
+  </div>
 </template>
 
 <script>
 export default {
-  layout: 'admin'
+  layout: 'admin',
+  middleware: ['auth']
+
 }
 </script>
 

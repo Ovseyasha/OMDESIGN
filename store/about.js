@@ -47,11 +47,7 @@ export const actions = {
       // avatar
       if (typeof (payload.img) !== 'string') {
         const fileName = payload.img.name
-        const Dstorage = this.$fireStorage
-        const storageRef = Dstorage.ref()
-        const desertRef = storageRef.child(`about/avatar/${id}__${getters.all.imgName}`)
-        await desertRef.delete()
-        await this.$fireStorage.ref(`about/avatar/${id}__${payload.imgName}`).delete()
+        await this.$fireStorage.ref().child(`about/avatar/${id}__${getters.all.imgName}`).delete()
         const storage = await this.$fireStorage.ref(`about/avatar/${id}__${fileName}`).put(payload.img)
         const imgUrl = await storage.ref.getDownloadURL()
         payload.img = imgUrl
@@ -83,7 +79,7 @@ export const actions = {
       }
       await this.$fireDb.ref(`about/${id}`).update(updateData)
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   },
@@ -93,7 +89,7 @@ export const actions = {
       const about = (await this.$fireDb.ref('about').once('value')).val()
       commit('loadAbout', about[id])
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   },
@@ -102,7 +98,7 @@ export const actions = {
       const meta = (await this.$fireDb.ref('meta').child('main').once('value')).val()
       commit('metaMain', meta)
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   },
@@ -111,7 +107,7 @@ export const actions = {
       const meta = (await this.$fireDb.ref('meta').child('about').once('value')).val()
       commit('metaAbout', meta)
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   }

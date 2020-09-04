@@ -1,3 +1,4 @@
+import Compressor from 'compressorjs'
 export const state = () => ({
   projects: [],
   project: null,
@@ -45,7 +46,7 @@ export const actions = {
       }
       commit('LoadProjects', projectsArray)
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   },
@@ -57,21 +58,54 @@ export const actions = {
       // ---------------------- BG -------------------------------------------
       const key = project.key
       const fileName = payload.img.name
-      // const ext = fileName.slice(fileName.lastIndexOf('.'))
-      const storages = await this.$fireStorage.ref(`projects/${key}/bg/${fileName}`).put(payload.img)
-      const imageUrl = await storages.ref.getDownloadURL()
-      await this.$fireDb.ref('projects').child(key).update({ img: imageUrl, fileName })
+      const ext = fileName.slice(fileName.lastIndexOf('.'))
+      const firebase = this.$fireStorage
+      const db = this.$fireDb
+      // eslint-disable-next-line
+      new Compressor(payload.img, {
+        quality: 0.6,
+        async success (result) {
+          const storages = await firebase.ref(`projects/${key}/bg/${fileName}`).put(result)
+          const imageUrl = await storages.ref.getDownloadURL()
+          await db.ref(`projects/${key}`).update({ img: imageUrl, fileName })
+        }
+      })
+      if (ext === '.gif') {
+        const storages = await this.$fireStorage.ref(`projects/${key}/bg/${fileName}`).put(payload.img)
+        const imageUrl = await storages.ref.getDownloadURL()
+        await this.$fireDb.ref(`projects/${key}`).update({ img: imageUrl, fileName })
+      }
       // ---------------------- SLIDER -------------------------------------------
       for (let i = 0; i < newProject.imgs.length; i++) {
         if (typeof (newProject.imgs[i].img) !== 'string') {
           const slideName = Math.random() + newProject.imgs[i].img.name
           const slideFile = newProject.imgs[i].img
-          const storagesSlide = await this.$fireStorage.ref(`projects/${key}/slides/${slideName}`).put(slideFile)
-          const slideUrl = await storagesSlide.ref.getDownloadURL()
-          const index = i
-          const title = newProject.imgs[i].title
-          newProject.imgs[i].fileName = slideName
-          await this.$fireDb.ref(`projects/${key}/imgs/${index}`).update({ img: slideUrl, title, fileName: slideName })
+          const ext = slideName.slice(slideName.lastIndexOf('.'))
+          const firebase = this.$fireStorage
+          const db = this.$fireDb
+          // eslint-disable-next-line
+          new Compressor(slideFile, {
+            quality: 0.8,
+            async success (result) {
+              const storagesSlide = await firebase.ref(`projects/${key}/slides/${slideName}`).put(result)
+              const slideUrl = await storagesSlide.ref.getDownloadURL()
+              const index = i
+              const title = newProject.imgs[i].title
+              newProject.imgs[i].fileName = slideName
+              await db.ref(`projects/${key}/imgs/${index}`).update({ img: slideUrl, title, fileName: slideName })
+            },
+            error (err) {
+              console.log(err.message)
+            }
+          })
+          if (ext === '.gif') {
+            const storagesSlide = await this.$fireStorage.ref(`projects/${key}/slides/${slideName}`).put(slideFile)
+            const slideUrl = await storagesSlide.ref.getDownloadURL()
+            const index = i
+            const title = newProject.imgs[i].title
+            newProject.imgs[i].fileName = slideName
+            await this.$fireDb.ref(`projects/${key}/imgs/${index}`).update({ img: slideUrl, title, fileName: slideName })
+          }
         }
       }
       // done logic here
@@ -80,7 +114,8 @@ export const actions = {
         id: project.key
       })
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
+      console.log(error)
       throw error
     }
   },
@@ -94,9 +129,27 @@ export const actions = {
         // const fileName = newProject.img.name
         await dispatch('loadProjectById', id)
         const fileName = getters.project.fileName
-        const storages = await this.$fireStorage.ref(`projects/${id}/bg/${fileName}`).put(newProject.img)
-        const imageUrl = await storages.ref.getDownloadURL()
-        newProject.img = imageUrl
+        const ext = fileName.slice(fileName.lastIndexOf('.'))
+        const firebase = this.$fireStorage
+        const db = this.$fireDb
+        // eslint-disable-next-line
+        new Compressor(newProject.img, {
+          quality: 0.6,
+          async success (result) {
+            const storages = await firebase.ref(`projects/${id}/bg/${fileName}`).put(result)
+            const imageUrl = await storages.ref.getDownloadURL()
+            console.log(imageUrl)
+            await db.ref(`projects/${id}`).update({ img: imageUrl, fileName })
+          },
+          error (err) {
+            console.log(err.message)
+          }
+        })
+        if (ext === '.gif') {
+          const storages = await this.$fireStorage.ref(`projects/${id}/bg/${fileName}`).put(newProject.img)
+          const imageUrl = await storages.ref.getDownloadURL()
+          newProject.img = imageUrl
+        }
       }
       // ---------------------- SLIDER -------------------------------------------
       if (payload.deletedName.length) {
@@ -111,16 +164,32 @@ export const actions = {
         if (typeof (newProject.imgs[i].img) !== 'string') {
           const slideName = Math.random() + newProject.imgs[i].fileName
           const slideFile = newProject.imgs[i].img
-          const storagesSlide = await this.$fireStorage.ref(`projects/${id}/slides/${slideName}`).put(slideFile)
-          const slideUrl = await storagesSlide.ref.getDownloadURL()
-          newProject.imgs[i].img = slideUrl
-          newProject.imgs[i].fileName = slideName
+          const ext = slideName.slice(slideName.lastIndexOf('.'))
+          const firebase = this.$fireStorage
+          const db = this.$fireDb
+          // eslint-disable-next-line
+          new Compressor(slideFile, {
+            quality: 0.8,
+            async success (result) {
+              const storagesSlide = await firebase.ref(`projects/${id}/slides/${slideName}`).put(result)
+              const slideUrl = await storagesSlide.ref.getDownloadURL()
+              newProject.imgs[i].img = slideUrl
+              newProject.imgs[i].fileName = slideName
+              await db.ref(`projects/${id}/imgs/${i}`).update({ img: slideUrl, title: newProject.imgs[i].title, fileName: slideName })
+            }
+          })
+          if (ext === '.gif') {
+            const storagesSlide = await this.$fireStorage.ref(`projects/${id}/slides/${slideName}`).put(slideFile)
+            const slideUrl = await storagesSlide.ref.getDownloadURL()
+            newProject.imgs[i].img = slideUrl
+            newProject.imgs[i].fileName = slideName
+          }
         }
       }
       await this.$fireDb.ref('projects').child(id).update(newProject)
-      dispatch('projects/LoadProjects')
+      dispatch('LoadProjects')
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   },
@@ -128,10 +197,15 @@ export const actions = {
     try {
       // здесь отправить на сервер
       const id = payload
+      const project = (await this.$fireDb.ref('projects').child(id).once('value')).val()
+      await this.$fireStorage.ref().child(`projects/${id}/bg/${project.fileName}`).delete()
+      project.imgs.forEach(async (img) => {
+        await this.$fireStorage.ref().child(`projects/${id}/slides/${img.fileName}`).delete()
+      })
       await this.$fireDb.ref('projects').child(id).remove()
-      dispatch('projects/LoadProjects')
+      dispatch('LoadProjects')
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   },
@@ -142,7 +216,7 @@ export const actions = {
       const loadProject = (await this.$fireDb.ref('projects').child(id).once('value')).val()
       commit('loadProjectById', loadProject)
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   },
@@ -151,7 +225,7 @@ export const actions = {
       const meta = (await this.$fireDb.ref('meta').child('projects').once('value')).val()
       commit('meta', meta)
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   }

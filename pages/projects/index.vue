@@ -1,7 +1,7 @@
 <template>
   <!-- eslint-disable -->
   <div class="projects">
-    <h1 class="projects__header">обо мне</h1>
+    <h1 class="projects__header">Портфолио</h1>
 
     <!-- <Loader v-show="loading" /> -->
     <transition-group

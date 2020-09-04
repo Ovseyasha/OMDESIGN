@@ -1,3 +1,4 @@
+import Compressor from 'compressorjs'
 export const state = () => ({
   services: [],
   service: null,
@@ -52,7 +53,7 @@ export const actions = {
       }
       commit('loadServices', servicesArray)
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   },
@@ -64,9 +65,24 @@ export const actions = {
       const key = service.key
       const fileName = payload.img.name
       const ext = fileName.slice(fileName.lastIndexOf('.'))
-      const storages = await this.$fireStorage.ref('services/bg/' + key + ext).put(payload.img)
-      const imageUrl = await storages.ref.getDownloadURL()
-      await this.$fireDb.ref('services').child(key).update({ img: imageUrl, ext })
+      const firebase = this.$fireStorage
+      const db = this.$fireDb
+      let imageUrl = ''
+      // eslint-disable-next-line
+      new Compressor(payload.img, {
+        quality: 0.6,
+        async success (result) {
+          const storages = await firebase.ref('services/bg/' + key + ext).put(result)
+          imageUrl = await storages.ref.getDownloadURL()
+          db.ref('services').child(key).update({ img: imageUrl, ext })
+        },
+        error (err) {
+          console.log(err.message)
+        }
+      })
+      if (ext === '.gif') {
+        this.$fireStorage.ref('services/bg/' + key + ext).put(payload.img)
+      }
       newService.img = imageUrl
       newService.ext = ext
       // done logic here
@@ -75,7 +91,7 @@ export const actions = {
         id: service.key
       })
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   },
@@ -86,16 +102,31 @@ export const actions = {
       if (typeof (newService.img) !== 'string') {
         const fileName = newService.img.name
         const ext = fileName.slice(fileName.lastIndexOf('.'))
-        const storages = await this.$fireStorage.ref('services/bg/' + id + ext).put(newService.img)
-        const imageUrl = await storages.ref.getDownloadURL()
-        newService.img = imageUrl
-        newService.ext = ext
+        const firebase = this.$fireStorage
+        const db = this.$fireDb
+        // eslint-disable-next-line
+        new Compressor(newService.img, {
+          quality: 0.6,
+          async success (result) {
+            const storages = await firebase.ref('services/bg/' + id + ext).put(result)
+            const imageUrl = await storages.ref.getDownloadURL()
+            newService.img = imageUrl
+            newService.ext = ext
+            await db.ref('services').child(id).update({ img: imageUrl, ext })
+          }
+        })
+        if (ext === '.gif') {
+          const storages = await this.$fireStorage.ref('services/bg/' + id + ext).put(newService.img)
+          const imageUrl = await storages.ref.getDownloadURL()
+          newService.img = imageUrl
+          newService.ext = ext
+        }
       }
       await this.$fireDb.ref('services').child(id).update(newService)
-      dispatch('services/loadServices')
+      dispatch('loadServices')
     } catch (error) {
       // error logic here
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   },
@@ -107,15 +138,12 @@ export const actions = {
       await dispatch('loadServiceById', id)
       const s = getters.service
       const ext = s.ext
-      const storage = this.$fireStorage
-      const storageRef = storage.ref()
-      const desertRef = storageRef.child(`services/bg/${id}${ext}`)
-      await desertRef.delete()
+      await this.$fireStorage.ref().child(`services/bg/${id}${ext}`).delete()
       await this.$fireDb.ref('services').child(id).remove()
-      dispatch('services/loadServices')
+      dispatch('loadServices')
     } catch (error) {
       // error logic here
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   },
@@ -127,7 +155,7 @@ export const actions = {
       commit('loadServiceById', service)
     } catch (error) {
       // error logic here
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   },
@@ -136,7 +164,7 @@ export const actions = {
       const meta = (await this.$fireDb.ref('meta').child('services').once('value')).val()
       commit('meta', meta)
     } catch (error) {
-      commit('setError', error)
+      commit('setError', error, { root: true })
       throw error
     }
   }

@@ -1,15 +1,16 @@
 <template>
   <!-- eslint-disable -->
-  <div>
-    <div>
-      <nuxt-link to="/">на сайт</nuxt-link>
-      <nuxt-link to="/admin/about">about</nuxt-link>
-      <nuxt-link to="/admin/services">services</nuxt-link>
-      <nuxt-link to="/admin/projects">projects</nuxt-link>
-      <nuxt-link to="/admin/contacts">contacts</nuxt-link>
-      <nuxt-link to="/admin">main</nuxt-link>
+  <div class="admin">
+    <AdminNavbar />
+    <div class="admin__content">
+      <transition
+        mode="out-in"
+        enter-active-class="animate__animated animate__faster animate__fadeIn"
+        leave-active-class="animate__animated animate__faster animate__fadeOut "
+      >
+        <nuxt />
+      </transition>
     </div>
-    <nuxt />
   </div>
 </template>
 
@@ -19,5 +20,15 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+.admin {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  &__content {
+    padding-top: 5%;
+    margin-left: 10%;
+    width: 85%;
+  }
+}
 </style>
