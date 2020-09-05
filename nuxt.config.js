@@ -77,7 +77,11 @@ export default {
           measurementId: 'G-RD3BNHGCVQ'
         },
         services: {
-          auth: true,
+          auth: {
+            initialize: {
+              onAuthSuccessAction: 'admin/set'
+            }
+          },
           storage: true,
           realtimeDb: true,
           analytics: true
@@ -89,5 +93,6 @@ export default {
   ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
+    vendor: ['compressorjs']
   }
 }

@@ -28,6 +28,10 @@ export default {
     background: darken(#a0c601, 10%);
   }
   &__link {
+    @media (max-width: 1000px) {
+      font-size: 14px;
+      padding: 0 5px;
+    }
     padding: 0 10px;
     display: flex;
     justify-content: center;
