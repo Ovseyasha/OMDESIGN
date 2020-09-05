@@ -75,9 +75,6 @@ export const actions = {
           const storages = await firebase.ref('services/bg/' + key + ext).put(result)
           imageUrl = await storages.ref.getDownloadURL()
           db.ref('services').child(key).update({ img: imageUrl, ext })
-        },
-        error (err) {
-          console.log(err.message)
         }
       })
       if (ext === '.gif') {
@@ -162,7 +159,7 @@ export const actions = {
   async meta ({ commit }) {
     try {
       const meta = (await this.$fireDb.ref('meta').child('services').once('value')).val()
-      commit('meta', meta)
+      commit('meta', { type: 'services', value: meta })
     } catch (error) {
       commit('setError', error, { root: true })
       throw error

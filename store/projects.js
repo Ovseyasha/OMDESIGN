@@ -93,9 +93,6 @@ export const actions = {
               const title = newProject.imgs[i].title
               newProject.imgs[i].fileName = slideName
               await db.ref(`projects/${key}/imgs/${index}`).update({ img: slideUrl, title, fileName: slideName })
-            },
-            error (err) {
-              console.log(err.message)
             }
           })
           if (ext === '.gif') {
@@ -115,7 +112,6 @@ export const actions = {
       })
     } catch (error) {
       commit('setError', error, { root: true })
-      console.log(error)
       throw error
     }
   },
@@ -138,11 +134,7 @@ export const actions = {
           async success (result) {
             const storages = await firebase.ref(`projects/${id}/bg/${fileName}`).put(result)
             const imageUrl = await storages.ref.getDownloadURL()
-            console.log(imageUrl)
             await db.ref(`projects/${id}`).update({ img: imageUrl, fileName })
-          },
-          error (err) {
-            console.log(err.message)
           }
         })
         if (ext === '.gif') {
@@ -223,7 +215,7 @@ export const actions = {
   async meta ({ commit }) {
     try {
       const meta = (await this.$fireDb.ref('meta').child('projects').once('value')).val()
-      commit('meta', meta)
+      commit('meta', { type: 'projects', value: meta })
     } catch (error) {
       commit('setError', error, { root: true })
       throw error

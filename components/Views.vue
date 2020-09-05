@@ -213,8 +213,6 @@ export default {
             this.$router.push('/admin/services')
           } catch (error) {
             this.loading = false
-            // alert(error)
-            console.log(error)
           }
         } else {
           try {
@@ -227,7 +225,6 @@ export default {
             this.$router.push('/admin/services')
           } catch (error) {
             this.loading = false
-            console.log(error)
           }
         }
       } else {
@@ -259,7 +256,6 @@ export default {
             this.$router.push('/admin/projects')
           } catch (error) {
             this.loading = false
-            console.log(error)
           }
         }
       }

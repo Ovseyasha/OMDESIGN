@@ -143,7 +143,7 @@ export const actions = {
   async meta ({ commit }) {
     try {
       const meta = (await this.$fireDb.ref('meta').child('contacts').once('value')).val()
-      commit('meta', meta)
+      commit('meta', { type: 'contacts', value: meta })
     } catch (error) {
       commit('setError', error, { root: true })
       throw error

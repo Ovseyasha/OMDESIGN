@@ -21,5 +21,18 @@ export const actions = {
   },
   clearError ({ commit }) {
     commit('clearError')
+  },
+  async editMeta ({ commit }, payload) {
+    try {
+      await this.$fireDb.ref('meta').child(payload.type).set(payload.value)
+      if (payload.type === 'about') {
+        commit('about/metaAbout', { type: payload.type, value: payload.value })
+      } else if (payload.type === 'main') {
+        commit('about/metaMain', { type: payload.type, value: payload.value })
+      } else {
+        commit(`${payload.type}/meta`, { type: payload.type, value: payload.value })
+      }
+    } catch (error) {
+    }
   }
 }

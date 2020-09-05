@@ -2,24 +2,38 @@
   <div class="view">
     <Loader v-if="loading" />
     <template v-else>
-      <div class="view__header">Просмотр письма</div>
+      <div class="view__header">
+        Просмотр письма
+      </div>
       <div class="view__info">
         <div class="info">
-          <div class="info__header">Имя:</div>
-          <div class="info__link">{{mail.name}}</div>
+          <div class="info__header">
+            Имя:
+          </div>
+          <div class="info__link">
+            {{ mail.name }}
+          </div>
         </div>
         <div class="info">
-          <div class="info__header">Почта:</div>
-          <a :href="`mailto:${mail.email}`" class="info__link">{{mail.email}}</a>
+          <div class="info__header">
+            Почта:
+          </div>
+          <a :href="`mailto:${mail.email}`" class="info__link">{{ mail.email }}</a>
         </div>
         <div class="info">
-          <div class="info__header">Телефон:</div>
-          <a :href="`tel:${mail.phone}`" class="info__link">{{mail.phone}}</a>
+          <div class="info__header">
+            Телефон:
+          </div>
+          <a :href="`tel:${mail.phone}`" class="info__link">{{ mail.phone }}</a>
         </div>
       </div>
       <div class="view__task">
-        <div class="view__sub-header">Задача:</div>
-        <div class="view__text">{{mail.task}}</div>
+        <div class="view__sub-header">
+          Задача:
+        </div>
+        <div class="view__text">
+          {{ mail.task }}
+        </div>
       </div>
     </template>
   </div>
@@ -28,7 +42,6 @@
 <script>
 export default {
   layout: 'admin',
-  // middleware: ['auth'],
   data () {
     return {
       mail: {},
@@ -87,9 +100,6 @@ export default {
   // flex-basis: 30%;
   display: flex;
   margin: 20px;
-  &__item {
-  }
-
   &__header {
     margin-right: 10px;
   }

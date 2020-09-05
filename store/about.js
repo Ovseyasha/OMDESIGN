@@ -96,7 +96,7 @@ export const actions = {
   async metaMain ({ commit }) {
     try {
       const meta = (await this.$fireDb.ref('meta').child('main').once('value')).val()
-      commit('metaMain', meta)
+      commit('metaMain', { type: 'main', value: meta })
     } catch (error) {
       commit('setError', error, { root: true })
       throw error
@@ -105,10 +105,17 @@ export const actions = {
   async metaAbout ({ commit }) {
     try {
       const meta = (await this.$fireDb.ref('meta').child('about').once('value')).val()
-      commit('metaAbout', meta)
+      commit('metaAbout', { type: 'about', value: meta })
     } catch (error) {
       commit('setError', error, { root: true })
       throw error
+    }
+  },
+  async editMetaAbout ({ commit }, payload) {
+    try {
+      await this.$fireDb.ref('meta').child('about').update(payload.value)
+      commit('metaAbout', { type: payload.type, value: payload.value })
+    } catch (error) {
     }
   }
 }

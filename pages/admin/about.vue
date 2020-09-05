@@ -69,7 +69,6 @@ export default {
         this.img = this.$store.getters['about/img']
         this.$nuxt.$loading.finish()
       } catch (error) {
-        console.log(error)
       }
     }
   }

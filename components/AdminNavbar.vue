@@ -5,14 +5,24 @@
     <nuxt-link class="navbar__link" no-prefetch exact to="/admin/about">Обо мне</nuxt-link>
     <nuxt-link class="navbar__link" no-prefetch exact to="/admin/services">Услуги</nuxt-link>
     <nuxt-link class="navbar__link" no-prefetch exact to="/admin/projects">Проекты</nuxt-link>
-    <nuxt-link class="navbar__link" no-prefetch exact to="/admin/contacts">Контакты</nuxt-link>
+    <nuxt-link class="navbar__link con" no-prefetch exact to="/admin/contacts">
+      Контакты
+      <span v-if="mailCount > 0">{{mailCount}}</span>
+    </nuxt-link>
     <nuxt-link class="navbar__link" no-prefetch exact to="/admin">SEO</nuxt-link>
   </div>
 </template>
 
 <script>
 export default {
-
+  computed: {
+    mailCount () {
+      return this.$store.getters['contacts/mails'].length
+    }
+  },
+  async mounted () {
+    await this.$store.dispatch('contacts/loadMails')
+  }
 }
 </script>
 
@@ -43,6 +53,16 @@ export default {
     transition: background-color ease-in-out 0.4s;
     &:hover {
       background: darken(#a0c601, 5%);
+    }
+  }
+}
+.con{
+  display: flex;
+  flex-direction: column;
+  span{
+    &::before{
+      content: 'New - ';
+      color: brown;
     }
   }
 }

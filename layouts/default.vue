@@ -7,7 +7,7 @@
         enter-active-class="animate__animated animate__slideInRight "
         leave-active-class="animate__animated animate__fadeOut "
       >
-        <Nuxt />
+        <Nuxt class="con" />
       </transition>
     </div>
   </div>
@@ -79,6 +79,11 @@ html {
   // left: 0;
 }
 .container {
+  .con{
+  @media (max-width: 720px) {
+    padding-top: 25px;
+  }
+  }
   margin: 0;
   padding: 5% 10% 3% 10%;
   overflow: hidden;

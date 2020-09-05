@@ -105,7 +105,7 @@ export default {
       return this.mode === 'services' ? '/admin/services/edit/' : '/admin/projects/edit/'
     },
     pathToView () {
-      return 'contacts/view/'
+      return 'contacts/'
     }
   },
   async mounted () {

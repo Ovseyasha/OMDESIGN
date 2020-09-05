@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  async beforeCreate () {
+  async beforeMount () {
     // пофиксить
     const user = await this.$store.dispatch('admin/getUid')
     if (user === 'null') {
@@ -30,7 +30,6 @@ export default {
         await this.$store.dispatch('admin/logOut')
         this.$router.push('/admin/login')
       } catch (error) {
-        console.log(error)
       }
     }
   }
