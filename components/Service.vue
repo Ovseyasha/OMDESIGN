@@ -110,10 +110,10 @@ export default {
           this.$refs[`title_${id}`][0].style.top = '20%'
           this.$refs[`sub_${id}`][0].style.opacity = '1'
         } else {
-          this.$router.push(`/projects/${id}`)
+          this.$router.push(`/projects/view/${id}`)
         }
       } else {
-        this.$router.push(`/projects/${id}`)
+        this.$router.push(`/projects/view/${id}`)
       }
     }
   }
@@ -167,20 +167,6 @@ export default {
   height: 100%;
   width: 100%;
 }
-// .fixxx {
-//   top: 2%;
-//   left: 0;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   width: 100%;
-//   height: 100%;
-//   position: fixed;
-//   z-index: 200;
-//   @media (max-width: 700px) {
-//     top: 4%;
-//   }
-// }
 .service__full-page {
   z-index: 200;
   overflow: auto;
@@ -191,9 +177,9 @@ export default {
   height: 95%;
   width: 100%;
   bottom: 0;
-  @media (max-width: 700px) {
+  @media (max-width: 720px) {
     width: 100%;
-    height: 95%;
+    height: 92%;
   }
 }
 .service__full-page::-webkit-scrollbar {

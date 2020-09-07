@@ -21,6 +21,7 @@
 
 <script>
 export default {
+  scrollToTop: true,
   async fetch ({ store }) {
     if (store.getters['services/services'].length === 0) {
       await store.dispatch('services/loadServices')
@@ -44,7 +45,7 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: this.desc
+          content: this.desc.value
         }
       ]
     }

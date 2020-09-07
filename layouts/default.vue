@@ -24,16 +24,16 @@ export default {
       let title = ''
       switch (this.$route.path) {
         case '/about':
-          title = 'обо мне'
+          title = '| обо мне'
           break
         case '/services':
-          title = 'услуги'
+          title = '| услуги'
           break
         case '/projects':
-          title = 'портфолио'
+          title = '| портфолио'
           break
         case '/contacts':
-          title = 'контакты'
+          title = '| контакты'
           break
       }
       return title
@@ -41,7 +41,7 @@ export default {
   },
   head () {
     return {
-      title: `OMDESIGN | ${this.title.toUpperCase()}`
+      title: `OMDESIGN  ${this.title.toUpperCase()}`
     }
   }
 
@@ -68,20 +68,11 @@ html {
 .bg {
   margin: 0;
   padding: 0;
-  // background: linear-gradient(
-  //     180deg,
-  //     rgba(196, 196, 196, 0.3) 0%,
-  //     rgba(196, 196, 196, 0.3) 100%
-  //   ),
-  //   url('/bg2.jpg') no-repeat center center fixed;
-  // position: fixed;
-  // top: 0;
-  // left: 0;
 }
 .container {
   .con{
   @media (max-width: 720px) {
-    padding-top: 25px;
+    padding-top: 30px;
   }
   }
   margin: 0;
@@ -93,20 +84,17 @@ html {
   // &::-webkit-scrollbar {
   //   width: 0px;
   // }
-  // @media (max-width: 1160px) {
-  //   padding: 30px 10%;
-  //   height: 80vh;
-  // }
-  // @media (max-width: 800px) {
-  //   padding: 30px 5%;
-  // }
-  // @media (max-width: 600px) {
-  //   padding: 60px 5%;
-  //   height: 72vh;
-  // }
-  // @media (max-width: 500px) {
-  //   padding: 60px 5%;
-  //   height: 70vh;
-  // }
+  @media (max-width: 1160px) {
+    padding: 30px 10%;
+  }
+  @media (max-width: 800px) {
+    padding: 30px 5%;
+  }
+  @media (max-width: 600px) {
+    padding: 60px 5%;
+  }
+  @media (max-width: 500px) {
+    padding: 60px 5%;
+  }
 }
 </style>

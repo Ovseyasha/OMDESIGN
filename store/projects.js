@@ -14,6 +14,9 @@ export const getters = {
   },
   meta (state) {
     return state.meta
+  },
+  getById: state => (id) => {
+    return state.projects.find(p => p.id === id)
   }
 }
 export const mutations = {
@@ -205,7 +208,7 @@ export const actions = {
     try {
       // здесь отправить на сервер
       const id = payload
-      const loadProject = (await this.$fireDb.ref('projects').child(id).once('value')).val()
+      const loadProject = (await this.$fireDb.ref(`projects/${id}`).once('value')).val()
       commit('loadProjectById', loadProject)
     } catch (error) {
       commit('setError', error, { root: true })

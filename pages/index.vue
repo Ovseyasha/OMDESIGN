@@ -97,6 +97,9 @@ export default {
   margin-left: 5%;
   z-index: 100000;
   font-weight: lighter;
+  @media (max-width: 720px) {
+    padding-top: 20px;
+  }
 }
 .main__header {
   z-index: 1;

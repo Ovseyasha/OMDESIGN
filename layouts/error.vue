@@ -15,8 +15,12 @@
 <script>
 export default {
   // eslint-disable-next-line
-  props: ['error'],
-  layout: 'empty'
+  props: {
+    error: {
+      type: Object,
+      default: () => {}
+    }
+  }
 }
 </script>
 

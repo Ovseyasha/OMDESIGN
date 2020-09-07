@@ -14,11 +14,12 @@
     "@nuxtjs/firebase": "^6.1.1",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "animate.css": "^4.1.0",
+    "axios": "^0.20.0",
     "compressorjs": "^1.0.6",
     "firebase": "^7.19.1",
     "normalize.css": "^8.0.1",
     "nuxt": "^2.14.0",
-    "swiper": "^6.1.2",
+    "swiper": "^6.2.0",
     "vue-awesome-swiper": "^4.1.1",
     "vue-cookie": "^1.1.4",
     "vuelidate": "^0.7.5"

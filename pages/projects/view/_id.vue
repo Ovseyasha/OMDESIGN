@@ -1,8 +1,8 @@
 <template>
   <!-- eslint-disable -->
   <div class="project">
-    <!-- <Loader v-if="loading" /> -->
-    <template>
+    <Loader v-if="loading" />
+    <template v-else>
       <div class="project__back">
         <a class="link-back" @click="$router.go(-1)">
           <i class="fas fa-arrow-circle-left"></i> Назад
@@ -10,51 +10,13 @@
       </div>
       <div class="project__content">
         <div class="project__slider animate__animated animate__slideInRight">
-          <swiper class="slider" ref="swiperComponent" :options="swiperOptions" :keyboard="true">
-            <swiper-slide class="slide" v-for="img in project.imgs" :key="img.img">
-              <div class="project__slide-title">{{img.title}}</div>
-              <img :src="img.img" />
+          <swiper ref="slider" :options="swiperOptions">
+            <swiper-slide v-for="(img,index) in project.imgs" :key="index">
+              <img :src="img.img" style="width: 100%">
             </swiper-slide>
+            <div class="btn swiper-button-prev" @click="prev" slot="button-prev"></div>
+            <div class="btn swiper-button-next" @click="next" slot="button-next"></div>
           </swiper>
-          <div class="pagi">{{ind}}/{{project.imgs.length}}</div>
-          <!-- <button class="swiper-button swiper-button-prev" @click="prev"> -->
-          <svg
-            class="swiper-button swiper-button-prev"
-            @click="prev"
-            width="23"
-            height="58"
-            viewBox="0 0 23 58"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M22 57L0.999998 29.4375L22 0.999998"
-              stroke="#C4C4C4"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <!-- </button> -->
-          <!-- <button class="swiper-button swiper-button-next" @click="next"> -->
-          <svg
-            class="swiper-button swiper-button-next"
-            @click="next"
-            width="23"
-            height="58"
-            viewBox="0 0 23 58"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M22 57L0.999998 29.4375L22 0.999998"
-              stroke="#C4C4C4"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <!-- </button> -->
         </div>
         <div class="project__text animate__animated animate__fadeInRight">
           <h1 class="project__name">{{project.subTitle}}</h1>
@@ -83,110 +45,63 @@
 </template>
 
 <script>
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+import '@/node_modules/swiper/swiper.less'
+// If you use Swiper 6.0.0 or higher
+import '@/node_modules/swiper/swiper-bundle.css'
 export default {
   components: {
-  },
-  async fetch ({ store, params }) {
-    const id = params.id
-    await store.dispatch('projects/loadProjectById', id)
+    Swiper,
+    SwiperSlide
   },
   data () {
     return {
+      // ind: 1,
+      loading: true,
+      project: {},
       swiperOptions: {
-        mousewheel: true,
-        keyboard: true
-      },
-      ind: 1
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+      }
     }
   },
   computed: {
-    project () {
-      return this.$store.getters['projects/project']
-    },
+    // 1345х755px
     swiper () {
-      return this.$refs.swiperComponent.$swiper
-    },
-    desc () {
-      return this.project.aboutCompany.join(' ')
+      return this.$refs.slider.$swiper
     }
   },
-  mounted () {
-    // this.swiper.slideTo(3, 1000, false)
+  async mounted () {
+    const id = this.$route.params.id
+    await this.$store.dispatch('projects/LoadProjects')
+    this.project = this.$store.getters['projects/getById'](id)
+    if (this.project === null) {
+      this.$router.push('/projects')
+    }
+    this.loading = false
   },
   methods: {
     prev () {
       this.swiper.slidePrev()
-      this.ind = this.swiper.activeIndex + 1
     },
     next () {
       this.swiper.slideNext()
-      this.ind = this.swiper.activeIndex + 1
-    }
-  },
-  head () {
-    return {
-      title: `OMDESIGN | ${this.project.title}`,
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: `${this.project.subTitle}. Деятельность компании: ${this.desc} Задача: ${this.project.task.join(' ')}`
-        }
-      ]
     }
   }
 }
 </script>
-
 <style lang="less" >
-.pagi {
-  margin-top: 10px;
-  text-align: center;
-  font-style: italic;
-  // color: #4d6a00;
-}
-.swiper-button {
-  margin: 1%;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  background: none;
-  position: absolute;
-  top: 45%;
-  &:hover {
-    opacity: 0.7;
+.btn{
+  color: grey;
+  &:hover{
+    color: lighten(grey, 20%);
   }
 }
-.swiper-button-next {
-  right: 0;
-  transform: scale(-1, 1);
-}
-.img {
-  background: rgba(0, 0, 0, 0.205);
-}
-.swiper-wrapper {
-  display: flex;
-}
-.slide {
-  img {
-    width: inherit;
-  }
-}
+// _______________________
 .project {
   position: relative;
-  // margin-left: -6%;
-  // margin-right: -6%;
-  // @media (max-width: 1500px) {
-  //   margin-top: 10%;
-  // }
-  // @media (max-width: 1300px) {
-  //   margin-top: 15%;
-  // }
-  // @media (max-width: 800px) {
-  //   margin-top: 3%;
-  //   margin-left: -3%;
-  //   margin-right: -3%;
-  // }
   &__back {
     padding-bottom: 2%;
     @media (max-width: 500px) {
@@ -210,15 +125,9 @@ export default {
   &__slider {
     z-index: 2;
     width: 75%;
-    position: relative;
-    overflow: hidden;
     @media (max-width: 1200px) {
       width: 100%;
     }
-  }
-  &__slides {
-    width: 100%;
-    height: 100%;
   }
   &__slide-title {
     font-family: Montserrat;

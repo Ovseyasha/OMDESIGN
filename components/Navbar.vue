@@ -181,8 +181,8 @@ export default {
 
 .logo,
 .hamburger-wrap {
-  width: 100px;
-  height: 100%;
+  width: 50px;
+  height: 50px;
   margin-left: 4%;
   margin-right: 4%;
   display: flex;
@@ -197,6 +197,10 @@ export default {
 }
 
 .hamburger {
+  padding: 0;
+  display: flex;
+  width: 50px;
+  height: 50px;
   position: relative;
   background: none;
   outline: none;
@@ -222,6 +226,7 @@ export default {
 
 .navlist {
   list-style: none;
+  padding: 0;
 }
 
 .navlistitem {
@@ -263,6 +268,9 @@ export default {
   align-items: center;
   position: fixed;
   height: 5%;
+  @media (max-width: 720px) {
+    height: 8%;
+  }
   &__main {
     margin-left: 2%;
     a {

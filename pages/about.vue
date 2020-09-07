@@ -24,6 +24,7 @@
 
 <script>
 export default {
+  scrollToTop: true,
   // для vuex
   async fetch ({ store }) {
     if (store.getters['about/all'] === null) {
@@ -51,7 +52,7 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: this.desc
+          content: this.desc.value
         }
       ]
     }

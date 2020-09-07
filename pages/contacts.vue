@@ -95,6 +95,7 @@
 <script>
 import { required, email, minLength, numeric } from 'vuelidate/lib/validators'
 export default {
+  scrollToTop: true,
   async fetch ({ store }) {
     if (store.getters['contacts/contacts'].length === 0) {
       await store.dispatch('contacts/loadContacts')
@@ -170,7 +171,7 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: this.desc
+          content: this.desc.value
         }
       ]
     }
@@ -181,6 +182,7 @@ export default {
 <style lang="less" scoped>
 .contacts {
   margin-top: 10%;
+  margin-bottom: 10%;
   &__items {
     display: flex;
     flex-wrap: wrap;

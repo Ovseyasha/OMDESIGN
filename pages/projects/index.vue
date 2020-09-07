@@ -27,6 +27,7 @@
 
 <script>
 export default {
+  scrollToTop: true,
   async fetch ({ store }) {
     if (store.getters['projects/projects'].length === 0) {
       await store.dispatch('projects/LoadProjects')
@@ -54,10 +55,10 @@ export default {
           this.$refs[`title_${id}`][0].style.top = '20%'
           this.$refs[`sub_${id}`][0].style.opacity = '1'
         } else {
-          this.$router.push(`/projects/${id}`)
+          this.$router.push(`/projects/view/${id}`)
         }
       } else {
-        this.$router.push(`/projects/${id}`)
+        this.$router.push(`/projects/view/${id}`)
       }
     }
   },
@@ -67,7 +68,7 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: this.desc
+          content: this.desc.value
         }
       ]
     }
@@ -106,7 +107,10 @@ export default {
     justify-content: center;
     align-items: center;
     text-decoration: none;
-
+    @media (max-width: 500px) {
+        width: 320px;
+        height: 320px;
+      }
     @media (min-width: 600px) {
       &:hover .project-block__title {
         top: 20%;
